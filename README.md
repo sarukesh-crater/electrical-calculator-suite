@@ -8,7 +8,7 @@
 
 > A professional-grade, browser-based calculator suite for Electrical & Electronics Engineers, technicians, and students. All calculations happen **instantly** in your browser — no server, no sign-up, no data collection.
 
-![EEE Calculator Suite Preview](https://via.placeholder.com/1200x600/0a0e1a/f59e0b?text=EEE+Calculator+Suite+Preview)
+![EEE Calculator Suite Preview](https://sarukesh-crater.github.io/electrical-calculator-suite/)
 
 ---
 
