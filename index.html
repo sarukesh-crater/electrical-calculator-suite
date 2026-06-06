@@ -370,4 +370,249 @@
                     <div class="form-group">
                         <label>Input Voltage (V<sub>in</sub>)</label>
                         <div class="input-wrapper">
-                            <input type="number" id="vd-vi
+                            <input type="number" id="vd-vin" placeholder="Enter input voltage" step="any">
+                            <span class="unit">V</span>
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>Resistor R1</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="vd-r1" placeholder="R1" step="any">
+                                <span class="unit">Ω</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Resistor R2</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="vd-r2" placeholder="R2" step="any">
+                                <span class="unit">Ω</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="calculateDivider()">Calculate V<sub>out</sub></button>
+
+                    <div class="result-box" id="vd-result" style="display:none;">
+                        <div class="result-label">Output Voltage</div>
+                        <div class="result-value">
+                            <span id="vd-res-val">0</span><span class="result-unit">V</span>
+                        </div>
+                        <div style="margin-top:12px;color:var(--text-secondary);font-size:0.9rem;">
+                            Divider Ratio: <span id="vd-ratio" style="color:var(--info);font-weight:600;">0</span>
+                        </div>
+                    </div>
+
+                    <div class="formula">V<sub>out</sub> = V<sub>in</sub> × (R2 / (R1 + R2))</div>
+                </div>
+
+                <div class="calc-card">
+                    <h2>🔧 Find Resistor Values</h2>
+                    <p class="subtitle">Calculate R1 or R2 for desired output</p>
+
+                    <div class="form-group">
+                        <label>Input Voltage (V<sub>in</sub>)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="vdr-vin" placeholder="Enter input voltage" step="any">
+                            <span class="unit">V</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Desired Output (V<sub>out</sub>)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="vdr-vout" placeholder="Enter desired output" step="any">
+                            <span class="unit">V</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Known Resistor Value</label>
+                        <div class="input-row">
+                            <div class="input-wrapper">
+                                <input type="number" id="vdr-rknown" placeholder="Value" step="any">
+                                <span class="unit">Ω</span>
+                            </div>
+                            <select id="vdr-which" style="width:auto;padding:14px;background:var(--bg-input);border:1px solid var(--border);border-radius:12px;color:var(--text-primary);font-family:'Inter',sans-serif;">
+                                <option value="r1">This is R1</option>
+                                <option value="r2">This is R2</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="calculateReverseDivider()">Find Missing Resistor</button>
+
+                    <div class="result-box" id="vdr-result" style="display:none;">
+                        <div class="result-label">Required Resistor</div>
+                        <div class="result-value">
+                            <span id="vdr-res-val">0</span><span class="result-unit">Ω</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== UNIT CONVERTER ==================== -->
+        <section id="converter" class="calc-section">
+            <div class="calc-grid">
+                <div class="calc-card">
+                    <h2>🔄 Electrical Unit Converter</h2>
+                    <p class="subtitle">Convert between common electrical units</p>
+
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="uc-category" onchange="updateUnitOptions()" style="width:100%;padding:14px;background:var(--bg-input);border:1px solid var(--border);border-radius:12px;color:var(--text-primary);font-family:'Inter',sans-serif;font-size:1rem;">
+                            <option value="voltage">Voltage</option>
+                            <option value="current">Current</option>
+                            <option value="resistance">Resistance</option>
+                            <option value="power">Power</option>
+                            <option value="capacitance">Capacitance</option>
+                            <option value="inductance">Inductance</option>
+                            <option value="frequency">Frequency</option>
+                        </select>
+                    </div>
+
+                    <div class="converter-row">
+                        <div class="form-group">
+                            <label>From</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="uc-from-val" placeholder="Value" step="any" oninput="convertUnit()">
+                            </div>
+                            <select id="uc-from-unit" onchange="convertUnit()" style="width:100%;margin-top:8px;padding:12px;background:var(--bg-input);border:1px solid var(--border);border-radius:10px;color:var(--text-primary);font-family:'Inter',sans-serif;">
+                            </select>
+                        </div>
+
+                        <button class="swap-btn" onclick="swapUnits()">⇄</button>
+
+                        <div class="form-group">
+                            <label>To</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="uc-to-val" placeholder="Result" step="any" readonly style="background:var(--bg-secondary);">
+                            </div>
+                            <select id="uc-to-unit" onchange="convertUnit()" style="width:100%;margin-top:8px;padding:12px;background:var(--bg-input);border:1px solid var(--border);border-radius:10px;color:var(--text-primary);font-family:'Inter',sans-serif;">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="formula" id="uc-formula" style="margin-top:20px;">Select a category to see conversion</div>
+                </div>
+
+                <div class="calc-card">
+                    <h2>📋 Prefix Reference</h2>
+                    <p class="subtitle">Common SI prefixes for electrical units</p>
+
+                    <table class="cable-table">
+                        <thead>
+                            <tr><th>Prefix</th><th>Symbol</th><th>Multiplier</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Tera</td><td>T</td><td>10¹²</td></tr>
+                            <tr><td>Giga</td><td>G</td><td>10⁹</td></tr>
+                            <tr><td>Mega</td><td>M</td><td>10⁶</td></tr>
+                            <tr><td>Kilo</td><td>k</td><td>10³</td></tr>
+                            <tr><td>Milli</td><td>m</td><td>10⁻³</td></tr>
+                            <tr><td>Micro</td><td>μ</td><td>10⁻⁶</td></tr>
+                            <tr><td>Nano</td><td>n</td><td>10⁻⁹</td></tr>
+                            <tr><td>Pico</td><td>p</td><td>10⁻¹²</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== CABLE SIZE ==================== -->
+        <section id="cable" class="calc-section">
+            <div class="calc-grid">
+                <div class="calc-card">
+                    <h2>🔌 Cable Size Estimator</h2>
+                    <p class="subtitle">Estimate cable size based on current and installation method</p>
+
+                    <div class="form-group">
+                        <label>Load Current (I)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="cs-current" placeholder="Enter current" step="any">
+                            <span class="unit">A</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Cable Type</label>
+                        <select id="cs-type" style="width:100%;padding:14px;background:var(--bg-input);border:1px solid var(--border);border-radius:12px;color:var(--text-primary);font-family:'Inter',sans-serif;font-size:1rem;">
+                            <option value="cu-pvc">Copper / PVC (70°C)</option>
+                            <option value="cu-xlpe">Copper / XLPE (90°C)</option>
+                            <option value="al-pvc">Aluminum / PVC (70°C)</option>
+                            <option value="al-xlpe">Aluminum / XLPE (90°C)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Installation</label>
+                        <select id="cs-install" style="width:100%;padding:14px;background:var(--bg-input);border:1px solid var(--border);border-radius:12px;color:var(--text-primary);font-family:'Inter',sans-serif;font-size:1rem;">
+                            <option value="conduit">In Conduit / Trunking</option>
+                            <option value="wall">On Wall / Open</option>
+                            <option value="underground">Direct Buried</option>
+                            <option value="tray">Cable Tray / Ladder</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Circuit Length (for voltage drop)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="cs-length" placeholder="Enter length" step="any">
+                            <span class="unit">m</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Max Voltage Drop (%)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="cs-vdrop" placeholder="3-5% typical" step="0.1" value="3">
+                            <span class="unit">%</span>
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="calculateCableSize()">Estimate Cable Size</button>
+
+                    <div class="result-box" id="cs-result" style="display:none;">
+                        <div class="result-label">Recommended Cable Size</div>
+                        <div class="result-value">
+                            <span id="cs-res-val">0</span><span class="result-unit">mm²</span>
+                        </div>
+                        <div style="margin-top:12px;color:var(--text-secondary);font-size:0.9rem;">
+                            Voltage Drop: <span id="cs-vd" style="color:var(--info);font-weight:600;">0</span>%
+                        </div>
+                    </div>
+                </div>
+
+                <div class="calc-card">
+                    <h2>📋 Cable Current Ratings</h2>
+                    <p class="subtitle">Reference table for Copper / PVC in conduit (3-core)</p>
+
+                    <table class="cable-table">
+                        <thead>
+                            <tr><th>Size (mm²)</th><th>Current (A)</th><th>Typical Use</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1.5</td><td>17</td><td>Lighting circuits</td></tr>
+                            <tr><td>2.5</td><td>24</td><td>Socket outlets</td></tr>
+                            <tr><td>4</td><td>32</td><td>Small appliances</td></tr>
+                            <tr><td>6</td><td>41</td><td>Cookers, showers</td></tr>
+                            <tr><td>10</td><td>57</td><td>Sub-main circuits</td></tr>
+                            <tr><td>16</td><td>76</td><td>Distribution</td></tr>
+                            <tr><td>25</td><td>101</td><td>Main feeders</td></tr>
+                            <tr><td>35</td><td>125</td><td>Panel connections</td></tr>
+                            <tr><td>50</td><td>151</td><td>Industrial loads</td></tr>
+                            <tr><td>70</td><td>192</td><td>Heavy machinery</td></tr>
+                            <tr><td>95</td><td>232</td><td>Transformers</td></tr>
+                            <tr><td>120</td><td>269</td><td>Main supply</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>Built with ⚡ by <a href="#">Sarukesh-Crater</a> | EEE Calculator Suite | Open Source on GitHub</p>
+            <p style="margin-top:8px;font-size:0.75rem;">All calculations are estimates. Always consult relevant standards (IEC, NEC, BS) for actual installations.</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast">Calculation complete!</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
