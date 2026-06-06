@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EEE Calculator Suite ⚡</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <div class="container">
+        <header class="header">
+            <div class="badge">⚡ EEE Calculator Suite</div>
+            <h1>Electrical Engineering Calculator</h1>
+            <p>Professional-grade calculators for electrical engineers, technicians, and students. All calculations happen instantly in your browser.</p>
+        </header>
+
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('ohms')">
+                <span class="icon">⚡</span> Ohm's Law
+            </button>
+            <button class="nav-tab" onclick="showSection('power')">
+                <span class="icon">🔌</span> Power
+            </button>
+            <button class="nav-tab" onclick="showSection('threephase')">
+                <span class="icon">🔋</span> 3-Phase Power
+            </button>
+            <button class="nav-tab" onclick="showSection('transformer')">
+                <span class="icon">🔄</span> Transformer
+            </button>
+            <button class="nav-tab" onclick="showSection('divider')">
+                <span class="icon">📊</span> Voltage Divider
+            </button>
+            <button class="nav-tab" onclick="showSection('converter')">
+                <span class="icon">🔄</span> Unit Converter
+            </button>
+            <button class="nav-tab" onclick="showSection('cable')">
+                <span class="icon">🔌</span> Cable Size
+            </button>
+        </nav>
+
+        <!-- ==================== OHM'S LAW ==================== -->
+        <section id="ohms" class="calc-section active">
+            <div class="calc-grid">
+                <div class="calc-card">
+                    <h2>⚡ Ohm's Law Calculator</h2>
+                    <p class="subtitle">Calculate Voltage (V), Current (I), Resistance (R), or Power (P)</p>
+
+                    <div class="form-group">
+                        <label>Solve for</label>
+                        <div class="phase-selector">
+                            <button class="phase-btn active" onclick="setOhmsMode('v')">Voltage (V)</button>
+                            <button class="phase-btn" onclick="setOhmsMode('i')">Current (I)</button>
+                            <button class="phase-btn" onclick="setOhmsMode('r')">Resistance (R)</button>
+                            <button class="phase-btn" onclick="setOhmsMode('p')">Power (P)</button>
+                        </div>
+                    </div>
+
+                    <div id="ohms-inputs">
+                        <div class="form-group">
+                            <label>Current (I)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="ohms-i" placeholder="Enter current" step="any">
+                                <span class="unit">A</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Resistance (R)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="ohms-r" placeholder="Enter resistance" step="any">
+                                <span class="unit">Ω</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="calculateOhms()">Calculate</button>
+
+                    <div class="result-box" id="ohms-result" style="display:none;">
+                        <div class="result-label">Result</div>
+                        <div class="result-value">
+                            <span id="ohms-res-val">0</span><span class="result-unit" id="ohms-res-unit">V</span>
+                        </div>
+                    </div>
+
+                    <div class="formula" id="ohms-formula">Formula: V = I × R</div>
+                </div>
+
+                <div class="calc-card">
+                    <h2>📐 Ohm's Law Triangle</h2>
+                    <p class="subtitle">Visual reference for the relationships</p>
+
+                    <div style="display:flex;justify-content:center;padding:30px 0;">
+                        <svg width="200" height="180" viewBox="0 0 200 180">
+                            <polygon points="100,20 180,160 20,160" fill="none" stroke="var(--accent)" stroke-width="2"/>
+                            <text x="100" y="65" text-anchor="middle" fill="var(--accent)" font-size="28" font-weight="700">V</text>
+                            <text x="65" y="140" text-anchor="middle" fill="var(--info)" font-size="22" font-weight="600">I</text>
+                            <text x="135" y="140" text-anchor="middle" fill="var(--success)" font-size="22" font-weight="600">R</text>
+                            <line x1="100" y1="75" x2="100" y2="150" stroke="var(--border)" stroke-width="1" stroke-dasharray="4"/>
+                            <line x1="70" y1="130" x2="130" y2="130" stroke="var(--border)" stroke-width="1" stroke-dasharray="4"/>
+                        </svg>
+                    </div>
+
+                    <div style="background:var(--bg-secondary);border-radius:12px;padding:16px;">
+                        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:0.9rem;">
+                            <span style="color:var(--accent)">V = I × R</span>
+                            <span style="color:var(--info)">I = V ÷ R</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;font-size:0.9rem;">
+                            <span style="color:var(--success)">R = V ÷ I</span>
+                            <span style="color:var(--danger)">P = V × I</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== POWER ==================== -->
+        <section id="power" class="calc-section">
+            <div class="calc-grid">
+                <div class="calc-card">
+                    <h2>🔌 Power Calculator</h2>
+                    <p class="subtitle">Calculate electrical power using different parameter combinations</p>
+
+                    <div class="form-group">
+                        <label>Voltage (V)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="pow-v" placeholder="Enter voltage" step="any">
+                            <span class="unit">V</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Current (I)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="pow-i" placeholder="Enter current" step="any">
+                            <span class="unit">A</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Resistance (R) <span style="color:var(--text-muted)">- Optional</span></label>
+                        <div class="input-wrapper">
+                            <input type="number" id="pow-r" placeholder="Enter resistance (optional)" step="any">
+                            <span class="unit">Ω</span>
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="calculatePower()">Calculate Power</button>
+
+                    <div class="result-box" id="power-result" style="display:none;">
+                        <div class="result-label">Power</div>
+                        <div class="result-value">
+                            <span id="power-res-val">0</span><span class="result-unit">W</span>
+                        </div>
+                    </div>
+
+                    <div class="formula">P = V × I = I² × R = V² ÷ R</div>
+                </div>
+
+                <div class="calc-card">
+                    <h2>📊 Power Triangle</h2>
+                    <p class="subtitle">Active, Reactive, and Apparent Power</p>
+
+                    <div class="form-group">
+                        <label>Active Power (P)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="pt-p" placeholder="Enter active power" step="any">
+                            <span class="unit">W</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Reactive Power (Q)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="pt-q" placeholder="Enter reactive power" step="any">
+                            <span class="unit">VAR</span>
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="calculatePowerTriangle()">Calculate Apparent Power</button>
+
+                    <div class="result-box" id="pt-result" style="display:none;">
+                        <div class="result-label">Apparent Power (S)</div>
+                        <div class="result-value">
+                            <span id="pt-res-val">0</span><span class="result-unit">VA</span>
+                        </div>
+                        <div style="margin-top:12px;color:var(--text-secondary);font-size:0.9rem;">
+                            Power Factor: <span id="pt-pf" style="color:var(--accent);font-weight:600;">0</span>
+                        </div>
+                    </div>
+
+                    <div class="formula">S = √(P² + Q²) &nbsp;&nbsp; PF = P / S</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== THREE-PHASE POWER ==================== -->
+        <section id="threephase" class="calc-section">
+            <div class="calc-grid">
+                <div class="calc-card">
+                    <h2>🔋 Three-Phase Power Calculator</h2>
+                    <p class="subtitle">Calculate power in 3-phase AC systems</p>
+
+                    <div class="form-group">
+                        <label>Configuration</label>
+                        <div class="phase-selector">
+                            <button class="phase-btn active" onclick="setPhaseConfig('star')">Star (Y)</button>
+                            <button class="phase-btn" onclick="setPhaseConfig('delta')">Delta (Δ)</button>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label>Line Voltage (V<sub>L</sub>)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="tp-vl" placeholder="Voltage" step="any">
+                                <span class="unit">V</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Line Current (I<sub>L</sub>)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="tp-il" placeholder="Current" step="any">
+                                <span class="unit">A</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Power Factor (cos φ)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="tp-pf" placeholder="0.8 - 1.0" step="0.01" min="0" max="1">
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="calculateThreePhase()">Calculate 3-Phase Power</button>
+
+                    <div class="result-box" id="tp-result" style="display:none;">
+                        <div class="result-label">Total Active Power</div>
+                        <div class="result-value">
+                            <span id="tp-res-val">0</span><span class="result-unit" id="tp-res-unit">kW</span>
+                        </div>
+                        <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.85rem;color:var(--text-secondary);">
+                            <div>Apparent: <span id="tp-app" style="color:var(--info)">0</span> kVA</div>
+                            <div>Reactive: <span id="tp-reac" style="color:var(--success)">0</span> kVAR</div>
+                        </div>
+                    </div>
+
+                    <div class="formula">P = √3 × V<sub>L</sub> × I<sub>L</sub> × PF</div>
+                </div>
+
+                <div class="calc-card">
+                    <h2>⚡ Phase Relationships</h2>
+                    <p class="subtitle">Star vs Delta connection values</p>
+
+                    <div style="background:var(--bg-secondary);border-radius:12px;padding:20px;margin-top:10px;">
+                        <h3 style="color:var(--accent);margin-bottom:16px;font-size:1rem;">Star (Y) Connection</h3>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.9rem;">
+                            <div style="color:var(--text-secondary)">V<sub>L</sub> = √3 × V<sub>ph</sub></div>
+                            <div style="color:var(--text-secondary)">I<sub>L</sub> = I<sub>ph</sub></div>
+                        </div>
+                    </div>
+
+                    <div style="background:var(--bg-secondary);border-radius:12px;padding:20px;margin-top:16px;">
+                        <h3 style="color:var(--accent);margin-bottom:16px;font-size:1rem;">Delta (Δ) Connection</h3>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.9rem;">
+                            <div style="color:var(--text-secondary)">V<sub>L</sub> = V<sub>ph</sub></div>
+                            <div style="color:var(--text-secondary)">I<sub>L</sub> = √3 × I<sub>ph</sub></div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:20px;padding:16px;background:rgba(245,158,11,0.05);border-radius:12px;border:1px solid rgba(245,158,11,0.1);">
+                        <div style="color:var(--accent);font-weight:600;margin-bottom:8px;">💡 Tip</div>
+                        <div style="color:var(--text-secondary);font-size:0.9rem;line-height:1.6;">
+                            For the same power, Delta connection draws √3 times more line current than Star connection.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TRANSFORMER ==================== -->
+        <section id="transformer" class="calc-section">
+            <div class="calc-grid">
+                <div class="calc-card">
+                    <h2>🔄 Transformer Efficiency</h2>
+                    <p class="subtitle">Calculate transformer efficiency and losses</p>
+
+                    <div class="form-group">
+                        <label>Input Power (P<sub>in</sub>)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="trans-pin" placeholder="Enter input power" step="any">
+                            <span class="unit">W</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Output Power (P<sub>out</sub>)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="trans-pout" placeholder="Enter output power" step="any">
+                            <span class="unit">W</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>OR: Core Losses + Copper Losses</label>
+                        <div class="input-row">
+                            <div class="input-wrapper">
+                                <input type="number" id="trans-core" placeholder="Core loss" step="any">
+                                <span class="unit">W</span>
+                            </div>
+                            <div class="input-wrapper">
+                                <input type="number" id="trans-copper" placeholder="Copper loss" step="any">
+                                <span class="unit">W</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="calculateTransformer()">Calculate Efficiency</button>
+
+                    <div class="result-box" id="trans-result" style="display:none;">
+                        <div class="result-label">Efficiency (η)</div>
+                        <div class="result-value">
+                            <span id="trans-res-val">0</span><span class="result-unit">%</span>
+                        </div>
+                        <div style="margin-top:12px;color:var(--text-secondary);font-size:0.9rem;">
+                            Total Losses: <span id="trans-loss" style="color:var(--danger);font-weight:600;">0</span> W
+                        </div>
+                    </div>
+
+                    <div class="formula">η = (P<sub>out</sub> / P<sub>in</sub>) × 100 = (P<sub>out</sub> / (P<sub>out</sub> + Losses)) × 100</div>
+                </div>
+
+                <div class="calc-card">
+                    <h2>📈 Voltage Regulation</h2>
+                    <p class="subtitle">Calculate transformer voltage regulation</p>
+
+                    <div class="form-group">
+                        <label>No-Load Voltage (V<sub>NL</sub>)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="vr-vnl" placeholder="Enter no-load voltage" step="any">
+                            <span class="unit">V</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Full-Load Voltage (V<sub>FL</sub>)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="vr-vfl" placeholder="Enter full-load voltage" step="any">
+                            <span class="unit">V</span>
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="calculateRegulation()">Calculate Regulation</button>
+
+                    <div class="result-box" id="vr-result" style="display:none;">
+                        <div class="result-label">Voltage Regulation</div>
+                        <div class="result-value">
+                            <span id="vr-res-val">0</span><span class="result-unit">%</span>
+                        </div>
+                    </div>
+
+                    <div class="formula">VR = ((V<sub>NL</sub> - V<sub>FL</sub>) / V<sub>FL</sub>) × 100</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== VOLTAGE DIVIDER ==================== -->
+        <section id="divider" class="calc-section">
+            <div class="calc-grid">
+                <div class="calc-card">
+                    <h2>📊 Voltage Divider</h2>
+                    <p class="subtitle">Calculate output voltage in a resistive divider</p>
+
+                    <div class="form-group">
+                        <label>Input Voltage (V<sub>in</sub>)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="vd-vi
